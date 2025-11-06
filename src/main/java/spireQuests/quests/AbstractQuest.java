@@ -1,19 +1,18 @@
 package spireQuests.quests;
 
-import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import spireQuests.patches.QuestTriggers;
 
+import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class AbstractQuest implements Comparable<AbstractQuest> {
+public abstract class AbstractQuest implements Comparable<AbstractQuest> {
     public enum QuestType {
         SHORT,
         LONG
@@ -34,7 +33,9 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
     public String description;
     public String author;
 
-    protected List<Tracker> trackers;
+    private int trackerTextIndex = 0;
+
+    public List<Tracker> trackers;
     protected List<Consumer<Trigger<?>>> triggers;
 
     /*
@@ -65,8 +66,12 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
         this.difficulty = difficulty;
 
         trackers = new ArrayList<>();
+        triggers = new ArrayList<>();
 
         localization = CardCrawlGame.languagePack.getUIString(id);
+        if (localization == null) {
+            throw new RuntimeException("Localization for the quest " + id + " not found!");
+        }
         setText();
     }
 
@@ -84,11 +89,26 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
      */
     protected Tracker addTracker(Tracker questTracker) {
         trackers.add(questTracker);
-        Consumer<Trigger<?>> triggerMethod = questTracker.getTriggerMethod();
-        if (triggerMethod != null) {
-            triggers.add(triggerMethod);
+
+        if (!questTracker.hidden) {
+            if (trackerTextIndex >= localization.EXTRA_TEXT.length) {
+                throw new RuntimeException("Quest " + id + " needs more entries in EXTRA_TEXT for its trackers");
+            }
+            questTracker.text = localization.EXTRA_TEXT[trackerTextIndex];
+            ++trackerTextIndex;
         }
+
+        if (questTracker.trigger != null) triggers.add(questTracker.trigger);
+        if (questTracker.reset != null) triggers.add(questTracker.reset);
+
         return questTracker;
+    }
+
+    public boolean complete() {
+        for (Tracker tracker : trackers) {
+            if (!tracker.isComplete()) return false;
+        }
+        return true;
     }
 
     public void onStart() {
@@ -101,7 +121,7 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
         //most likely when they are in a complete state, they can be clicked to claim the reward?
     }
 
-    public <T> void triggerTrackers(Trigger<T> trigger) {
+    public void triggerTrackers(Trigger<?> trigger) {
         for (Consumer<Trigger<?>> triggerMethod : triggers) {
             triggerMethod.accept(trigger);
         }
@@ -141,34 +161,22 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
     //also add a method hide() which will make a tracker invisible for something like part of a sequential tracker
 
     public abstract static class Tracker {
+        public String text;
         protected boolean hidden = false;
         protected Supplier<Boolean> condition = null;
         protected Consumer<Trigger<?>> trigger = null;
         protected Consumer<Trigger<?>> reset = null;
-
-        private Consumer<Trigger<?>> getTriggerMethod() {
-            return trigger;
-        }
-        private Consumer<Trigger<?>> getResetMethod() {
-            return reset;
-        }
 
         public abstract boolean isComplete();
         public boolean isFailed() {
             return false;
         }
 
-        public abstract String progressString();
+        public boolean hidden() {
+            return hidden;
+        }
 
-        protected <T> void setTrigger(Trigger<T> trigger, Consumer<T> onTrigger) {
-            this.trigger = (obj) -> {
-                if (condition.get()) trigger.getTriggerMethod(onTrigger);
-            };
-        }
-        protected <T> void setResetTrigger(Trigger<T> trigger, Consumer<T> onTrigger) {
-            this.reset = trigger.getTriggerMethod(onTrigger);
-        }
-        protected void addCondition(Supplier<Boolean> condition) {
+        protected final void addCondition(Supplier<Boolean> condition) {
             if (this.condition != null) {
                 Supplier<Boolean> oldCondition = this.condition;
                 this.condition = () -> oldCondition.get() && condition.get();
@@ -181,9 +189,48 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
         /**
          * Causes a tracker to not be displayed. This should be done for a subcondition, like "be in a shop" before "obtain x cards"
          */
-        protected Tracker hide() {
+        protected final Tracker hide() {
             this.hidden = true;
             return this;
+        }
+
+        protected final <A> void setTrigger(Trigger<A> trigger, Consumer<A> onTrigger) {
+            this.trigger = trigger.getTriggerMethod((param) -> {
+                if (Tracker.this.condition == null || Tracker.this.condition.get()) onTrigger.accept(param);
+            });
+        }
+
+        /**
+         * Sets a trigger that will reset this tracker's progress. No effect by default on passive trackers, but the reset method can be overridden.
+         * @param trigger
+         */
+        protected final <A> Tracker setResetTrigger(Trigger<A> trigger) {
+            return setResetTrigger(trigger, (param) -> true);
+        }
+
+        /**
+         * Sets a trigger that will reset this tracker's progress. No effect by default on passive trackers, but the reset method can be overridden.
+         * @param trigger
+         * @param condition Receives the trigger parameter and only resets the tracker if true is returned.
+         */
+        protected final <A> Tracker setResetTrigger(Trigger<A> trigger, Function<A, Boolean> condition) {
+            this.reset = trigger.getTriggerMethod((param)->{
+                if (condition.apply(param)) {
+                    this.reset();
+                }
+            });
+            return this;
+        }
+        protected void reset() {
+
+        }
+
+
+        public abstract String progressString();
+
+        @Override
+        public String toString() {
+            return text + progressString();
         }
 
         /**
@@ -191,7 +238,7 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
          * @param other
          * @return
          */
-        protected Tracker after(Tracker other) {
+        protected final Tracker after(Tracker other) {
             addCondition(other::isComplete);
             return other;
         }
@@ -201,18 +248,13 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
          * @param other
          * @return
          */
-        protected Tracker before(Tracker other) {
+        protected final Tracker before(Tracker other) {
             other.addCondition(this::isComplete);
             return other;
         }
 
-        protected Tracker add(AbstractQuest quest) {
-            quest.trackers.add(this);
-            Consumer<Trigger<?>> triggerMethod = getTriggerMethod();
-            if (triggerMethod != null) {
-                quest.triggers.add(triggerMethod);
-            }
-            return this;
+        protected final Tracker add(AbstractQuest quest) {
+            return quest.addTracker(this);
         }
     }
 
@@ -245,9 +287,11 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
             this.isFailed = isFailed;
         }
 
+        //Resetting does nothing for a passive tracker, but you could override it to do something.
+
         @Override
         public boolean isComplete() {
-            return (condition == null || condition.get()) && comparer.apply(progress.get(), target);
+            return (condition == null || condition.get()) && comparer.apply(progress.get(), target) && !isFailed();
         }
 
         @Override
@@ -257,15 +301,18 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
 
         @Override
         public String progressString() {
-            return progress.get() + "/" + target;
+            return String.format(" (%s/%s)", progress.get(), target);
         }
     }
 
     /**
      * A tracker that requires a trigger to occur a certain number of times.
+     * Adding a condition causes the tracker to not being tracking until it is fulfilled.
+     * Can also add a
      */
     public static class TriggerTracker<T> extends Tracker {
         private final int targetCount;
+        private Function<T, Boolean> triggerCondition = null;
         private final Supplier<Boolean> isFailed;
 
         private int count;
@@ -281,13 +328,24 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
             setTrigger(trigger, this::trigger);
         }
 
+        public TriggerTracker<T> triggerCondition(Function<T, Boolean> condition) {
+            this.triggerCondition = condition;
+            return this;
+        }
+
         public void trigger(T param) {
-            ++count;
+            if (triggerCondition == null || triggerCondition.apply(param))
+                ++count;
+        }
+
+        @Override
+        protected void reset() {
+            count = 0;
         }
 
         @Override
         public boolean isComplete() {
-            return count >= targetCount;
+            return count >= targetCount && !isFailed();
         }
 
         @Override
@@ -297,7 +355,7 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
 
         @Override
         public String progressString() {
-            return count + "/" + targetCount;
+            return String.format(" (%d/%d)", count, targetCount);
         }
     }
 
@@ -306,7 +364,7 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
      * @param <T>
      */
     public static class TriggeredUpdateTracker<T, U> extends Tracker {
-        protected T state, target;
+        protected T start, state, target;
         private final Supplier<T> getState;
         private final Supplier<Boolean> isFailed;
 
@@ -315,6 +373,7 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
         }
 
         public TriggeredUpdateTracker(Trigger<U> trigger, T start, T target, Supplier<T> getState, Supplier<Boolean> isFailed) {
+            this.start = start;
             this.state = start;
             this.target = target;
             this.getState = getState;
@@ -328,8 +387,13 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
         }
 
         @Override
+        protected void reset() {
+            this.state = start;
+        }
+
+        @Override
         public boolean isComplete() {
-            return target.equals(state);
+            return (condition == null || condition.get()) && target.equals(state);
         }
 
         @Override
@@ -339,7 +403,7 @@ public class AbstractQuest implements Comparable<AbstractQuest> {
 
         @Override
         public String progressString() {
-            return state + "/" + target;
+            return String.format(" (%s/%s)", state, target);
         }
     }
 }
