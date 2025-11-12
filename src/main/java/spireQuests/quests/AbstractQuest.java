@@ -1,11 +1,9 @@
 package spireQuests.quests;
 
-import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
 import spireQuests.Anniv8Mod;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +17,8 @@ import java.util.function.Supplier;
 import static spireQuests.Anniv8Mod.makeID;
 
 public abstract class AbstractQuest implements Comparable<AbstractQuest> {
+    private static final String[] TEXT = CardCrawlGame.languagePack.getUIString(makeID("AbstractQuest")).TEXT;
+
     public enum QuestType {
         SHORT,
         LONG
@@ -38,6 +38,7 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
     public String name;
     public String description;
     public String author;
+    public float width = 0;
 
     public boolean useDefaultReward;
     public List<QuestReward> questRewards;
@@ -46,6 +47,7 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
 
     public List<Tracker> trackers;
     protected List<Consumer<Trigger<?>>> triggers;
+    private boolean complete;
 
     private static final int HP_COST_MIN_RANGE = 3;
     private static final int HP_COST_MAX_RANGE = 6;
@@ -55,7 +57,7 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
     public int goldCost;
     public boolean usingGoldCost;
 
-    public ArrayList<PowerTip> stuffToPreview;
+    private ArrayList<PowerTip> previewTooltips;
 
     /*
     examples of how trackers would be added in the constructor of a quest
@@ -89,7 +91,8 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
 
         trackers = new ArrayList<>();
         triggers = new ArrayList<>();
-        stuffToPreview = new ArrayList<>();
+
+        complete = false;
 
         localization = CardCrawlGame.languagePack.getUIString(id);
         if (localization == null) {
@@ -126,8 +129,8 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
     }
 
     //override if you want to set up the text differently
-    public String getRequirementsText() {
-        return localization.EXTRA_TEXT[0];
+    public String getDescription() {
+        return description;
     }
 
     //override if you want to set up the text differently
@@ -141,6 +144,26 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
             rewardsText = sb.toString();
         }
         return rewardsText;
+    }
+
+    public final ArrayList<PowerTip> getPreviewTips() {
+        if (previewTooltips == null) {
+            previewTooltips = new ArrayList<>();
+            makeTooltips(previewTooltips);
+        }
+
+        return previewTooltips;
+    }
+
+    /**
+     * To add custom tips to a quest, override this method.
+     * @param tipList
+     */
+    public void makeTooltips(List<PowerTip> tipList) {
+        tipList.clear();
+        for (QuestReward reward : questRewards) {
+            reward.addTooltip(tipList);
+        }
     }
 
     /**
@@ -174,10 +197,32 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
     }
 
     public boolean complete() {
+        if (complete) {
+            return true;
+        }
+
         for (Tracker tracker : trackers) {
             if (!tracker.isComplete()) return false;
         }
+        complete = true;
+        trackers.clear();
+        triggers.clear();
+        trackers.add(new QuestCompleteTracker());
         return true;
+    }
+
+    public final void obtainRewards() {
+        onComplete();
+        if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.COMBAT_REWARD) {
+            for (QuestReward reward : questRewards) {
+                reward.obtainRewardItem();
+            }
+        }
+        else {
+            for (QuestReward reward : questRewards) {
+                reward.obtainInstant();
+            }
+        }
     }
 
     public void update() {
@@ -207,6 +252,14 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
     }
 
     public void loadSave(String[] questData) {
+        if (questData.length == 1 && QuestCompleteTracker.COMPLETE_STRING.equals(questData[0])) {
+            complete = true;
+            trackers.clear();
+            triggers.clear();
+            trackers.add(new QuestCompleteTracker());
+            return;
+        }
+
         for (int i = 0; i < questData.length; ++i) {
             if (i >= trackers.size()) {
                 Anniv8Mod.logger.warn("Saved tracker data for quest " + id + " does not match tracker count");
@@ -280,7 +333,7 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
             return hidden;
         }
 
-        protected final void addCondition(Supplier<Boolean> condition) {
+        public final void addCondition(Supplier<Boolean> condition) {
             if (this.condition != null) {
                 Supplier<Boolean> oldCondition = this.condition;
                 this.condition = () -> oldCondition.get() && condition.get();
@@ -293,12 +346,12 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
         /**
          * Causes a tracker to not be displayed. This should be done for a subcondition, like "be in a shop" before "obtain x cards"
          */
-        protected final Tracker hide() {
+        public final Tracker hide() {
             this.hidden = true;
             return this;
         }
 
-        protected final <A> void setTrigger(Trigger<A> trigger, Consumer<A> onTrigger) {
+        public final <A> void setTrigger(Trigger<A> trigger, Consumer<A> onTrigger) {
             this.trigger = trigger.getTriggerMethod((param) -> {
                 if (Tracker.this.condition == null || Tracker.this.condition.get()) onTrigger.accept(param);
             });
@@ -308,23 +361,35 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
          * Sets a trigger that will reset this tracker's progress. No effect by default on passive trackers, but the reset method can be overridden.
          * @param trigger
          */
-        protected final <A> Tracker setResetTrigger(Trigger<A> trigger) {
+        public final <A> Tracker setResetTrigger(Trigger<A> trigger) {
             return setResetTrigger(trigger, (param) -> true);
         }
 
         /**
          * Sets a trigger that will reset this tracker's progress. No effect by default on passive trackers, but the reset method can be overridden.
          * @param trigger
-         * @param condition Receives the trigger parameter and only resets the tracker if true is returned.
+         * @param condition Receives the trigger parameter and only resets the tracker if true is returned and the trigger is incomplete.
          */
         public final <A> Tracker setResetTrigger(Trigger<A> trigger, Function<A, Boolean> condition) {
+            return setResetTrigger(trigger, condition, true);
+        }
+
+        /**
+         * Sets a trigger that will reset this tracker's progress. No effect by default on passive trackers, but the reset method can be overridden.
+         * @param trigger
+         * @param condition Receives the trigger parameter and only resets the tracker if true is returned.
+         * @param lockCompletion If true, the reset trigger will be ignored once this tracker is completed.
+         */
+        public final <A> Tracker setResetTrigger(Trigger<A> trigger, Function<A, Boolean> condition, boolean lockCompletion) {
             this.reset = trigger.getTriggerMethod((param)->{
+                if (lockCompletion && this.isComplete()) return;
                 if (condition.apply(param)) {
                     this.reset();
                 }
             });
             return this;
         }
+
         protected void reset() {
 
         }
@@ -547,6 +612,37 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
         @Override
         public void refreshState() {
             state = getState.get();
+        }
+    }
+
+    /**
+     * A tracker used to mark a quest as completed to avoid having the state change afterward
+     */
+    private static class QuestCompleteTracker extends Tracker {
+        public static final String COMPLETE_STRING = "COMPLETE";
+
+        public QuestCompleteTracker() {
+
+        }
+
+        @Override
+        public boolean isComplete() {
+            return true;
+        }
+
+        @Override
+        public String progressString() {
+            return TEXT[0];
+        }
+
+        @Override
+        public String toString() {
+            return TEXT[0];
+        }
+
+        @Override
+        public String saveData() {
+            return COMPLETE_STRING;
         }
     }
 

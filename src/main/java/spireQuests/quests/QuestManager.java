@@ -8,6 +8,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireField;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import spireQuests.Anniv8Mod;
 import spireQuests.quests.example.TestQuest;
 
@@ -95,6 +96,20 @@ public class QuestManager {
         quests().add(quest);
         quests().sort(null);
         quest.onStart();
+    }
+
+    public static void completeQuest(AbstractQuest quest) {
+        if (!quest.complete()) {
+            Anniv8Mod.logger.warn("completeQuest called when quest is not complete!");
+            return;
+        }
+
+        if (AbstractDungeon.currMapNode == null) return;
+        if (AbstractDungeon.currMapNode.room == null) return;
+        if (AbstractDungeon.currMapNode.room.phase == AbstractRoom.RoomPhase.COMBAT) return;
+
+        quests().remove(quest);
+        quest.obtainRewards();
     }
 
     public void update() {

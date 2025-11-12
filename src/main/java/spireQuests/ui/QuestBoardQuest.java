@@ -13,6 +13,8 @@ import spireQuests.Anniv8Mod;
 import spireQuests.quests.AbstractQuest;
 import spireQuests.quests.QuestManager;
 
+import java.util.ArrayList;
+
 import static com.badlogic.gdx.graphics.Color.WHITE;
 
 public class QuestBoardQuest {
@@ -51,7 +53,7 @@ public class QuestBoardQuest {
             sb.draw(ImageMaster.REWARD_SCREEN_TAKE_BUTTON, this.x + 5.0F * Settings.xScale, this.y - 445.0F * Settings.yScale + boardY, 512.0F * Settings.xScale, 256.0F * Settings.yScale);
             sb.setColor(Color.WHITE.cpy());
             FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, TEXT[1], this.x + 260.0F * Settings.xScale, this.y - 315.0F * Settings.yScale + boardY, Color.WHITE, 0.8F);
-            FontHelper.renderFontLeft(sb, FontHelper.cardDescFont_N, quest.getRequirementsText(), this.x + 55.0F * Settings.xScale, this.y + 165.0F * Settings.yScale + boardY, Color.WHITE);
+            FontHelper.renderFontLeft(sb, FontHelper.cardDescFont_N, quest.getDescription(), this.x + 55.0F * Settings.xScale, this.y + 165.0F * Settings.yScale + boardY, Color.WHITE);
             FontHelper.renderFontLeft(sb, FontHelper.cardDescFont_N, quest.getRewardsText(), this.x + 55.0F * Settings.xScale, this.y - 60.0F * Settings.yScale + boardY, Color.WHITE);
             if (Anniv8Mod.questsHaveCost()) {
                 renderPrice(sb, boardY);
@@ -67,11 +69,12 @@ public class QuestBoardQuest {
         float TIP_OFFSET_R_X = 20.0F * Settings.xScale;
         float TIP_OFFSET_L_X = -380.0F * Settings.xScale;
 
-        if (!quest.stuffToPreview.isEmpty()) {
+        ArrayList<PowerTip> tips = quest.getPreviewTips();
+        if (!tips.isEmpty()) {
             if (this.previewHb.cX + this.previewHb.width / 2.0F < TIP_X_THRESHOLD) {
-                TipHelper.queuePowerTips(this.previewHb.cX + this.previewHb.width / 2.0F + TIP_OFFSET_R_X, this.previewHb.cY + TipHelper.calculateAdditionalOffset(quest.stuffToPreview, this.previewHb.cY) + boardY, quest.stuffToPreview);
+                TipHelper.queuePowerTips(this.previewHb.cX + this.previewHb.width / 2.0F + TIP_OFFSET_R_X, this.previewHb.cY + TipHelper.calculateAdditionalOffset(tips, this.previewHb.cY) + boardY, tips);
             } else {
-                TipHelper.queuePowerTips(this.previewHb.cX - this.previewHb.width / 2.0F + TIP_OFFSET_L_X, this.previewHb.cY + TipHelper.calculateAdditionalOffset(quest.stuffToPreview, this.previewHb.cY) + boardY, quest.stuffToPreview);
+                TipHelper.queuePowerTips(this.previewHb.cX - this.previewHb.width / 2.0F + TIP_OFFSET_L_X, this.previewHb.cY + TipHelper.calculateAdditionalOffset(tips, this.previewHb.cY) + boardY, tips);
             }
         }
     }

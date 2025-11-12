@@ -22,6 +22,11 @@
       " more quest(s)"
       ]
   },
+  "${ModID}:AbstractQuest": {
+    "TEXT": [
+      "Quest Complete! Click to claim."
+    ]
+  },
   "${ModID}:QuestReward": {
     "TEXT": [
       "Gain %d Gold.",
