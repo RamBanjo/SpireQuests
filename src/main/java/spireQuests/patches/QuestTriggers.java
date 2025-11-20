@@ -11,6 +11,8 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.orbs.AbstractOrb;
+import com.megacrit.cardcrawl.orbs.EmptyOrbSlot;
 import com.megacrit.cardcrawl.rewards.chests.AbstractChest;
 import com.megacrit.cardcrawl.rewards.chests.BossChest;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
@@ -39,6 +41,8 @@ public class QuestTriggers {
     public static final Trigger<AbstractPotion> USE_POTION = new Trigger<>();
 
     public static final Trigger<Void> IMPENDING_DAY_KILL = new Trigger<>();
+    public static final Trigger<AbstractOrb> CHANNEL_ORB = new Trigger<>();
+    public static final Trigger<AbstractOrb> EVOKE_ORB = new Trigger<>();
     public static final Trigger<Integer> ACT_CHANGE = new Trigger<>();
     public static final Trigger<AbstractChest> CHEST_OPENED = new Trigger<>(); //NOTE: This includes both normal and boss chests.
 
@@ -187,6 +191,31 @@ public class QuestTriggers {
             COMBAT_END.trigger();
             if (!AbstractDungeon.getCurrRoom().smoked) {
                 VICTORY.trigger();
+            }
+        }
+    }
+
+    @SpirePatch2(clz = AbstractPlayer.class, method = "evokeOrb")
+    public static class evokeOrb {
+        @SpirePrefixPatch
+        public static void evokePatch(AbstractPlayer __instance) {
+            if (disabled()) return;
+
+            if (!__instance.orbs.isEmpty() && !(__instance.orbs.get(0) instanceof EmptyOrbSlot)) {
+                EVOKE_ORB.trigger(__instance.orbs.get(0));
+            }
+
+        }
+    }
+    
+    @SpirePatch2(clz = AbstractPlayer.class, method = "channelOrb")
+    public static class channelOrb {
+        @SpirePrefixPatch
+        public static void channelPatch(AbstractPlayer __instance, AbstractOrb orbToSet) {
+            if (disabled()) return;
+
+            if (__instance.maxOrbs > 0){
+                CHANNEL_ORB.trigger(orbToSet);
             }
         }
     }

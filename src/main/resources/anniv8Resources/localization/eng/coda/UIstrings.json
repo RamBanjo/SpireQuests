@@ -1,4 +1,15 @@
 {
+  "${ModID}:OrbSpinnerQuest": {
+    "TEXT": [
+      "Orb Spinner",
+      "Evoke 4 unique orb types in one turn.",
+      "coda"
+    ],
+    "EXTRA_TEXT": [
+      "Evoke 4 unique orb types in one turn.",
+      "Orbs Evoked"
+    ]
+  },
   "${ModID}:BackToBasicsQuest": {
     "TEXT": [
       "Keep it Simple",
