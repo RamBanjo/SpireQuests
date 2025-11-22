@@ -26,14 +26,11 @@ public class SelloutAdvertisementCard extends AbstractSQCard {
         }
 
         this.exhaust = true;
-
-//        this.baseMagicNumber = this.magicNumber = 15;
     }
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-//        AbstractDungeon.player.gainGold(this.magicNumber);
-//        addToBot(new VFXAction(new RainingGoldEffect(this.magicNumber)));
+
     }
 
     @Override

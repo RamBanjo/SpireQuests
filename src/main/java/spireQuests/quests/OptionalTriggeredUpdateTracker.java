@@ -1,7 +1,6 @@
-package spireQuests.quests.ramchops;
+package spireQuests.quests;
 
 import spireQuests.quests.AbstractQuest.TriggeredUpdateTracker;
-import spireQuests.quests.Trigger;
 
 import java.util.function.Supplier;
 

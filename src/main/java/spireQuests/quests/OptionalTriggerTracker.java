@@ -1,8 +1,6 @@
-package spireQuests.quests.ramchops;
+package spireQuests.quests;
 
 import spireQuests.Anniv8Mod;
-import spireQuests.quests.AbstractQuest;
-import spireQuests.quests.Trigger;
 
 /**
  * An UpdateTracker that doesn't track progress and is always considered complete to track certain parameters during quests.
@@ -10,8 +8,8 @@ import spireQuests.quests.Trigger;
  */
 public class OptionalTriggerTracker<T> extends AbstractQuest.TriggerTracker<T> {
 
-    int localCount = 0;
-    int localGoal;
+    public int localCount = 0;
+    public int localGoal;
     boolean hideProgress = false;
 
     public OptionalTriggerTracker(Trigger<T> trigger, int count, boolean hideProgress) {

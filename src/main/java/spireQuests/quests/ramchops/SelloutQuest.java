@@ -29,15 +29,9 @@ public class SelloutQuest extends AbstractQuest implements CustomSavable<Integer
 
         new AdsPlayedQuestTracker().add(this);
         new SelloutCombatTracker().add(this);
-        new TriggeredUpdateTracker<>(QuestTriggers.DECK_CHANGE, 0, 1, () -> {
-
-            if (initialPickup) return 0;
-
-            if (AbstractDungeon.player.masterDeck.group.stream().noneMatch(c -> c instanceof SelloutAdvertisementCard)) return 1;
-            return 0;
-
-        }).add(this);
-
+        new TriggerTracker<>(QuestTriggers.REMOVE_CARD, 3).triggerCondition((card)->
+           card instanceof SelloutAdvertisementCard
+        ).add(this);
         addReward(new QuestReward.GoldReward(0));
     }
 
@@ -51,8 +45,6 @@ public class SelloutQuest extends AbstractQuest implements CustomSavable<Integer
         float displayCount = count;
 
         for (int i = 0; i < count; i++){
-
-
             AbstractCard selloutCard = new SelloutAdvertisementCard();
             selloutCard.initializeDescription();
 
@@ -60,15 +52,12 @@ public class SelloutQuest extends AbstractQuest implements CustomSavable<Integer
             displayCount += (float)(Settings.WIDTH / (6.0F)) * (3/count);
             displayCount++;
         }
-
-
     }
 
     @Override
     public void onComplete() {
         questRewards.clear();
         addReward(new QuestReward.GoldReward(adRevenue));
-//        AbstractDungeon.player.gainGold(adRevenue);
     }
 
     @Override

@@ -2,6 +2,7 @@ package spireQuests.quests.ramchops;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import spireQuests.patches.QuestTriggers;
+import spireQuests.quests.OptionalTriggerTracker;
 
 
 public class AdsPlayedQuestTracker extends OptionalTriggerTracker<AbstractCard> {

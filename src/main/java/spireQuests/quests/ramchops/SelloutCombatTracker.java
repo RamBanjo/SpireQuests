@@ -5,8 +5,9 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import spireQuests.patches.QuestTriggers;
+import spireQuests.quests.OptionalTriggerTracker;
 
-public class SelloutCombatTracker extends OptionalTriggerTracker<Void>{
+public class SelloutCombatTracker extends OptionalTriggerTracker<Void> {
 
     public SelloutCombatTracker(){
         super(QuestTriggers.VICTORY, 5, false);
