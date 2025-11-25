@@ -3,17 +3,11 @@ package spireQuests.quests.ramchops.relics;
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.actions.animations.FastShakeAction;
 import com.megacrit.cardcrawl.actions.animations.VFXAction;
-import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInDiscardAction;
 import com.megacrit.cardcrawl.actions.utility.SFXAction;
-import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.cards.status.Dazed;
 import com.megacrit.cardcrawl.cards.tempCards.Insight;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.vfx.BorderFlashEffect;
 import com.megacrit.cardcrawl.vfx.combat.ShockWaveEffect;
-import com.megacrit.cardcrawl.vfx.combat.SmallLaserEffect;
 import spireQuests.abstracts.AbstractSQRelic;
 
 import static spireQuests.Anniv8Mod.makeID;
@@ -22,8 +16,7 @@ import static spireQuests.util.Wiz.*;
 
 public class FriendSentry extends AbstractSQRelic {
 
-    public static String ID = makeID("FriendSentry");
-    public static int DMG = 9;
+    public static String ID = makeID(FriendSentry.class.getName());
 
     public FriendSentry() {
         super(ID, "ramchops", RelicTier.SPECIAL, LandingSound.HEAVY);
@@ -36,25 +29,14 @@ public class FriendSentry extends AbstractSQRelic {
 
     @Override
     public void atTurnStart() {
-
-        this.flash();
-
         counter += 1;
 
         if (counter % 2 == 1){
+            this.flash();
             AbstractDungeon.actionManager.addToBottom(new SFXAction("THUNDERCLAP"));
             AbstractDungeon.actionManager.addToBottom(new VFXAction(adp(), new ShockWaveEffect(adp().hb.cX, adp().hb.cY, Color.ROYAL, ShockWaveEffect.ShockWaveType.ADDITIVE), 0.5F));
             AbstractDungeon.actionManager.addToBottom(new FastShakeAction(AbstractDungeon.player, 0.6F, 0.2F));
             AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDiscardAction(new Insight(), 1));
-        }else{
-
-            AbstractMonster victim = getLowestHealthEnemy();
-
-            AbstractDungeon.actionManager.addToBottom(new SFXAction("ATTACK_MAGIC_BEAM_SHORT", 0.5F));
-            AbstractDungeon.actionManager.addToBottom(new VFXAction(new BorderFlashEffect(Color.SKY)));
-            AbstractDungeon.actionManager.addToBottom(new VFXAction(new SmallLaserEffect(victim.hb.cX, victim.hb.cY, adp().hb.cX, adp().hb.cY), 0.1F));
-
-            atb(new DamageAction(victim, new DamageInfo(null, DMG, DamageInfo.DamageType.THORNS)));
         }
     }
 
@@ -65,6 +47,6 @@ public class FriendSentry extends AbstractSQRelic {
 
     @Override
     public String getUpdatedDescription() {
-        return String.format(DESCRIPTIONS[0], DMG);
+        return String.format(DESCRIPTIONS[0]);
     }
 }
