@@ -2,6 +2,7 @@ package spireQuests.quests.ramchops;
 
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.MembershipCard;
+import com.megacrit.cardcrawl.rooms.ShopRoom;
 import spireQuests.patches.QuestTriggers;
 import spireQuests.quests.AbstractQuest;
 import spireQuests.quests.QuestReward;
@@ -14,7 +15,9 @@ public class WindowShoppingQuest extends AbstractQuest {
         super(QuestType.SHORT, QuestDifficulty.EASY);
 
         new TriggerTracker<>(QuestTriggers.LEAVE_ROOM, SHOP_VISITS)
-                .setFailureTrigger(QuestTriggers.MONEY_SPENT_AT_SHOP)
+                .triggerCondition((mapRoomNode) ->
+                    mapRoomNode.room instanceof ShopRoom
+                ).setFailureTrigger(QuestTriggers.MONEY_SPENT_AT_SHOP)
                 .add(this);
 
         addReward(new QuestReward.RelicReward(new MembershipCard()));
