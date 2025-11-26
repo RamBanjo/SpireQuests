@@ -5,5 +5,13 @@
     "DESCRIPTIONS": [
       "At the start of odd turns, add an #yInsight into your discard pile."
     ]
+  },
+
+  "${ModID}:SnakeSlough": {
+    "NAME": "Snake Slough",
+    "FLAVOR": "You hear whistling and mad cackling from far away...",
+    "DESCRIPTIONS": [
+      "Gain #b%s Dexterity at the start of combat. Gain Temporary Strength equal to your Dexterity at the start of every 3 turns."
+    ]
   }
 }

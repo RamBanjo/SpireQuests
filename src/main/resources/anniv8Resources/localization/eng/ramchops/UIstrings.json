@@ -45,5 +45,17 @@
     "EXTRA_TEXT": [
       "Leave Shops Without Spending Gold"
     ]
+  },
+
+  "${ModID}:StabWoundsQuest": {
+    "TEXT": [
+      "28 Stab Wounds",
+      "Your next Elite this act will be Reptomancer. Have #b6 Daggers explode on you, then win the fight.",
+      "RamChops Games"
+    ],
+    "EXTRA_TEXT": [
+      "Get Shanked By Reptomancer's Daggers",
+      "Defeat Reptomancer"
+    ]
   }
 }
