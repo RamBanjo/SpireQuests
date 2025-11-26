@@ -3,7 +3,7 @@
     "NAME": "Friendly Sentry",
     "FLAVOR": "\"The answer? Use a laser. And if that don't work...use more lasers.\" - The Architect",
     "DESCRIPTIONS": [
-      "At the start of odd turns, add an #yInsight into your discard pile."
+      "At the start of odd turns, add an #yInsight to your discard pile."
     ]
   },
 
@@ -11,7 +11,7 @@
     "NAME": "Snake Slough",
     "FLAVOR": "You hear whistling and mad cackling from far away...",
     "DESCRIPTIONS": [
-      "Gain #b%s Dexterity at the start of combat. Gain Temporary Strength equal to your Dexterity at the start of every 3 turns."
+      "Start of each combat with #b%s #yDexterity [REMOVE_SPACE]. Every #b%s turns, gain #yTemporary #yStrength equal to your #yDexterity [REMOVE_SPACE]."
     ]
   }
 }

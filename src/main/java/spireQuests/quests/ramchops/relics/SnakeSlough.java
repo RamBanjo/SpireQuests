@@ -26,7 +26,8 @@ public class SnakeSlough extends AbstractSQRelic {
         super(ID, "ramchops", RelicTier.SPECIAL, LandingSound.FLAT);
     }
 
-    private int DEX_GAIN_AT_START = 1;
+    private final int DEX_GAIN_AT_START = 1;
+    private final int ACTIVE_TURN_COUNT = 3;
 
     @Override
     public void atBattleStart() {
@@ -38,7 +39,7 @@ public class SnakeSlough extends AbstractSQRelic {
     public void atTurnStart() {
         counter += 1;
 
-        if (counter % 3 == 0){
+        if (counter % ACTIVE_TURN_COUNT == 0){
             this.flash();
             this.counter = 0;
 
@@ -59,6 +60,6 @@ public class SnakeSlough extends AbstractSQRelic {
 
     @Override
     public String getUpdatedDescription() {
-        return String.format(DESCRIPTIONS[0], DEX_GAIN_AT_START);
+        return String.format(DESCRIPTIONS[0], DEX_GAIN_AT_START, ACTIVE_TURN_COUNT);
     }
 }
