@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import com.megacrit.cardcrawl.orbs.EmptyOrbSlot;
+import com.megacrit.cardcrawl.relics.Ectoplasm;
 import com.megacrit.cardcrawl.rewards.chests.AbstractChest;
 import com.megacrit.cardcrawl.rewards.chests.BossChest;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
@@ -52,6 +53,8 @@ public class QuestTriggers {
     public static final Trigger<Void> MAX_HEALTH_CHANGED = new Trigger<>();
     public static final Trigger<Integer> MAX_HEALTH_INCREASED = new Trigger<>();
     public static final Trigger<Integer> MAX_HEALTH_DECREASED = new Trigger<>();
+
+    public static final Trigger<Integer> GAIN_MONEY = new Trigger<>(); //NOTE: Will not trigger if you have Ectoplasm.
     public static final Trigger<Integer> LOSE_MONEY = new Trigger<>(); //NOTE: This counts all instances of losing money, including events
     public static final Trigger<Integer> MONEY_SPENT_AT_SHOP = new Trigger<>(); //NOTE: This counts only money spent at shop and not money lost through events.
 
@@ -331,6 +334,19 @@ public class QuestTriggers {
             }
         }
     }
+    @SpirePatch2(
+            clz = AbstractPlayer.class,
+            method = "gainGold",
+            paramtypez = int.class)
+    public static class GainGoldPatch{
+        @SpirePrefixPatch
+        public static void GainGoldPatch(AbstractPlayer __instance, int amount){
+            if (!__instance.hasRelic(Ectoplasm.ID)) {
+                GAIN_MONEY.trigger(amount);
+            }
+        }
+    }
+
     @SpirePatch2(
             clz = AbstractPlayer.class,
             method = "loseGold",

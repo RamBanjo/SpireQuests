@@ -34,5 +34,16 @@
     "TRACKER_TEXT": [
       "Leave Shops Without Spending Gold"
     ]
+  },
+  "${ModID}:CharityQuest": {
+    "TITLE": "Charity Case",
+    "DESCRIPTION": "Any Gold reward you skip will be donated to The Cleric. This Quest ends when you gain any Gold [REMOVE_SPACE].",
+    "AUTHOR": "RamChops Games",
+    "REWARD": "The Cleric thanks you! He will grant #b1 Max HP for every #b25 Gold donated.",
+    "TRACKER_TEXT": [
+      "Gold Donated",
+      "Cleric's Gratitude",
+      "Gain Some Gold"
+    ]
   }
 }
