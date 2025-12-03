@@ -74,12 +74,14 @@ public class SelloutQuest extends AbstractQuest implements CustomSavable<Integer
     @Override
     public boolean complete() {
 
-        Object o = trackers.get(0);
+        if(!this.isCompleted()) {
+            Object o = trackers.get(0);
 
-        if(o instanceof AdsPlayedQuestTracker){
-            adRevenue = ((AdsPlayedQuestTracker) o).localCount;
-        }else{
-            Anniv8Mod.logger.warn("Failed to detect AdsPlayedQuestTracker in the list of trackers. Please tell Ram to fix the code.");
+            if (o instanceof AdsPlayedQuestTracker) {
+                adRevenue = ((AdsPlayedQuestTracker) o).localCount;
+            } else {
+                Anniv8Mod.logger.warn("Failed to detect AdsPlayedQuestTracker in the list of trackers. Please tell Ram to fix the code.");
+            }
         }
 
         return super.complete();
