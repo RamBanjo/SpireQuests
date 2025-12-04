@@ -189,13 +189,10 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
 
         if (!questTracker.hidden) {
             if (trackerTextIndex >= questStrings.TRACKER_TEXT.length) {
-                questTracker.text = "[INDEX_OUT_OF_BOUNDS]";
-                Anniv8Mod.logger.warn("Quest " + id + " needs more entries in TRACKER_TEXT for its trackers");
-//                throw new RuntimeException("Quest " + id + " needs more entries in TRACKER_TEXT for its trackers");
-            }else {
-                questTracker.text = questStrings.TRACKER_TEXT[trackerTextIndex];
-                trackerTextIndex += 1;
+                throw new RuntimeException("Quest " + id + " needs more entries in TRACKER_TEXT for its trackers");
             }
+            questTracker.text = questStrings.TRACKER_TEXT[trackerTextIndex];
+            trackerTextIndex++;
         }
 
         if (questTracker.trigger != null) triggers.add(questTracker.trigger);
