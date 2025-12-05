@@ -34,7 +34,7 @@ public class CharityQuest extends AbstractQuest implements CustomSavable<Integer
         new ClericFundsTracker().add(this);
         new ClericRewardTracker().add(this);
         new TriggerTracker<>(QuestTriggers.GAIN_MONEY, 1).add(this);
-        addReward(new QuestReward.MaxHPReward(0));
+
     }
 
     @Override
