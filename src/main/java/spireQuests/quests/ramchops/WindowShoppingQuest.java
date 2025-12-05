@@ -9,6 +9,7 @@ import spireQuests.quests.QuestReward;
 import spireQuests.quests.ramchops.patch.ShopMoneyTracker;
 
 import static spireQuests.util.Wiz.adp;
+import static spireQuests.util.Wiz.curRoom;
 
 public class WindowShoppingQuest extends AbstractQuest {
 
@@ -31,7 +32,7 @@ public class WindowShoppingQuest extends AbstractQuest {
     public void onStart() {
         super.onStart();
 
-        if (ShopMoneyTracker.moneySpentInShop > 0){
+        if (ShopMoneyTracker.getMoneySpentInRoom(curRoom()) > 0){
             this.forceFail();
         }
     }
@@ -39,5 +40,14 @@ public class WindowShoppingQuest extends AbstractQuest {
     @Override
     public boolean canSpawn() {
         return AbstractDungeon.actNum >= 1 && AbstractDungeon.actNum <= 2 && !adp().hasRelic(MembershipCard.ID);
+    }
+
+    @Override
+    public String getDescription() {
+        if(curRoom() instanceof ShopRoom){
+            return super.getDescription() + questStrings.EXTRA_TEXT[0];
+        }
+
+        return super.getDescription();
     }
 }

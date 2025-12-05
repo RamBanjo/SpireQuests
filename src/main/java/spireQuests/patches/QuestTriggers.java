@@ -105,7 +105,6 @@ public class QuestTriggers {
         public static void onEnterRoom(AbstractDungeon __instance, SaveFile file) {
             if (!disabled() && AbstractDungeon.currMapNode != null) {
                 LEAVE_ROOM.trigger(AbstractDungeon.currMapNode);
-                ShopMoneyTracker.moneySpentInShop = 0;
             }
 
             if (!disabled() && AbstractDungeon.nextRoom != null) {
