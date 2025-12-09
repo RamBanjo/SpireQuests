@@ -1,22 +1,15 @@
 package spireQuests.quests.ramchops;
 
 import basemod.abstracts.CustomSavable;
-import basemod.helpers.CardPowerTip;
-import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.relics.Ectoplasm;
-import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 import spireQuests.Anniv8Mod;
 import spireQuests.patches.QuestTriggers;
 import spireQuests.quests.AbstractQuest;
 import spireQuests.quests.QuestReward;
-import spireQuests.quests.ramchops.cards.SelloutAdvertisementCard;
-import spireQuests.quests.ramchops.trackers.AdsPlayedQuestTracker;
 import spireQuests.quests.ramchops.trackers.ClericFundsTracker;
 import spireQuests.quests.ramchops.trackers.ClericRewardTracker;
-import spireQuests.quests.ramchops.trackers.SelloutCombatTracker;
 
 import java.util.List;
 
@@ -34,7 +27,11 @@ public class CharityQuest extends AbstractQuest implements CustomSavable<Integer
         new ClericFundsTracker().add(this);
         new ClericRewardTracker().add(this);
         new TriggerTracker<>(QuestTriggers.GAIN_MONEY, 1).add(this);
-
+        new TriggerEvent<>(QuestTriggers.OBTAIN_RELIC, (relic)->{
+            if (relic.relicId.equals(Ectoplasm.ID)){
+                forceComplete();
+            }
+        });
     }
 
     @Override
@@ -77,6 +74,15 @@ public class CharityQuest extends AbstractQuest implements CustomSavable<Integer
     @Override
     public void onLoad(Integer integer) {
         maxHPGain = integer;
+    }
+
+    @Override
+    public void makeTooltips(List<PowerTip> tipList) {
+        super.makeTooltips(tipList);
+
+        Ectoplasm ecto = new Ectoplasm();
+
+        tipList.add(new PowerTip(ecto.name, ecto.description));
     }
 }
 
