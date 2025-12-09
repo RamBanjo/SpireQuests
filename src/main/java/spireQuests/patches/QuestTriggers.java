@@ -334,6 +334,7 @@ public class QuestTriggers {
             }
         }
     }
+
     @SpirePatch2(
             clz = AbstractPlayer.class,
             method = "gainGold",
@@ -341,6 +342,8 @@ public class QuestTriggers {
     public static class GainGoldPatch{
         @SpirePrefixPatch
         public static void GainGoldPatch(AbstractPlayer __instance, int amount){
+            if (disabled()) return;
+
             if (!__instance.hasRelic(Ectoplasm.ID)) {
                 GAIN_MONEY.trigger(amount);
             }
@@ -354,6 +357,7 @@ public class QuestTriggers {
     public static class SpendGoldPatch{
         @SpirePrefixPatch
         public static void LoseGoldPatch(AbstractPlayer __instance, int goldAmount){
+            if (disabled()) return;
 
             LOSE_MONEY.trigger(goldAmount);
 
