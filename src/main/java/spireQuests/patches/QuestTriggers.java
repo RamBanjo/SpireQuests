@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import com.megacrit.cardcrawl.orbs.EmptyOrbSlot;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.Ectoplasm;
 import com.megacrit.cardcrawl.rewards.chests.AbstractChest;
 import com.megacrit.cardcrawl.rewards.chests.BossChest;
@@ -57,6 +58,8 @@ public class QuestTriggers {
     public static final Trigger<Integer> GAIN_MONEY = new Trigger<>(); //NOTE: Will not trigger if you have Ectoplasm.
     public static final Trigger<Integer> LOSE_MONEY = new Trigger<>(); //NOTE: This counts all instances of losing money, including events
     public static final Trigger<Integer> MONEY_SPENT_AT_SHOP = new Trigger<>(); //NOTE: This counts only money spent at shop and not money lost through events.
+
+    public static final Trigger<AbstractRelic> OBTAIN_RELIC = new Trigger<>();
 
     private static boolean disabled() {
         return CardCrawlGame.mode != CardCrawlGame.GameMode.GAMEPLAY;
@@ -368,4 +371,38 @@ public class QuestTriggers {
         }
     }
 
+    @SpirePatch2(
+            clz = AbstractRelic.class,
+            method = "obtain")
+    public static class ObtainRelicPatch{
+        @SpirePrefixPatch
+        public static void obtainPatch(AbstractRelic __instance){
+            if(disabled()) return;
+            OBTAIN_RELIC.trigger(__instance);
+        }
+    }
+
+    @SpirePatch2(
+            clz = AbstractRelic.class,
+            method = "instantObtain",
+            paramtypez = {AbstractPlayer.class, Integer.class, Boolean.class})
+    public static class instantObtainPatch{
+        @SpirePrefixPatch
+        public static void obtainPatch(AbstractRelic __instance, AbstractPlayer p, Integer slot, Boolean callOnEquip){
+            if(disabled()) return;
+            OBTAIN_RELIC.trigger(__instance);
+        }
+    }
+
+    @SpirePatch2(
+            clz = AbstractRelic.class,
+            method = "instantObtain"
+    )
+    public static class argumentlessInstantObtainPatch{
+        @SpirePrefixPatch
+        public static void obtainPatch(AbstractRelic __instance){
+            if(disabled()) return;
+            OBTAIN_RELIC.trigger(__instance);
+        }
+    }
 }
