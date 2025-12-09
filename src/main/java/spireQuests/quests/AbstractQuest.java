@@ -253,6 +253,15 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
         trackers.add(new QuestFailedTracker());
     }
 
+    public void forceComplete() {
+        if (failed) Anniv8Mod.logger.warn("Forcefully completed quest that was failed {}", this.id);
+
+        complete = true;
+        trackers.clear();
+        triggers.clear();
+        trackers.add(new QuestCompleteTracker());
+    }
+
     //override if you want different completion SFX.
     public void completeSFX() {
         CardCrawlGame.sound.play("UNLOCK_PING");
