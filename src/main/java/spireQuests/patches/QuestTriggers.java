@@ -59,7 +59,7 @@ public class QuestTriggers {
     public static final Trigger<Integer> LOSE_MONEY = new Trigger<>(); //NOTE: This counts all instances of losing money, including events
     public static final Trigger<Integer> MONEY_SPENT_AT_SHOP = new Trigger<>(); //NOTE: This counts only money spent at shop and not money lost through events.
 
-    public static final Trigger<AbstractRelic> OBTAIN_RELIC = new Trigger<>();
+    public static final Trigger<AbstractRelic> OBTAIN_RELIC = new Trigger<>(); //NOTE: This is triggered by both obtain() and instantObtain().
 
     private static boolean disabled() {
         return CardCrawlGame.mode != CardCrawlGame.GameMode.GAMEPLAY;
