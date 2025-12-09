@@ -18,7 +18,7 @@ public class ClericRewardTracker extends OptionalTriggerTracker<Integer> {
     @Override
     public void trigger(Integer param) {
 
-        int DIVISOR = 20;
+        int DIVISOR = 15;
         localCount = Math.floorDiv(param, DIVISOR);
     }
 }
