@@ -26,12 +26,12 @@ public class CharityQuest extends AbstractQuest implements CustomSavable<Integer
 
         new ClericFundsTracker().add(this);
         new ClericRewardTracker().add(this);
-        new TriggerTracker<>(QuestTriggers.GAIN_MONEY, 1).add(this);
-        new TriggerEvent<>(QuestTriggers.OBTAIN_RELIC, (relic)->{
-            if (relic.relicId.equals(Ectoplasm.ID)){
-                forceComplete();
+        new TriggerTracker<Integer>(QuestTriggers.GAIN_MONEY, 1){
+            @Override
+            public boolean isComplete() {
+                return super.isComplete() || adp().hasRelic(Ectoplasm.ID);
             }
-        });
+        }.add(this);
     }
 
     @Override
