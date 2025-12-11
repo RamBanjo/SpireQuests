@@ -184,6 +184,14 @@ public class QuestManager {
         questCompletionPerFloor.get(questCompletionPerFloor.size() - 1).add(quest.id);
     }
 
+    public static void autoCompleteQuest(AbstractQuest quest){
+        quests().remove(quest);
+        quest.obtainRewards();
+        QuestStatManager.markComplete(quest.id);
+        List<List<String>> questCompletionPerFloor = QuestRunHistoryPatch.questCompletionPerFloorLog.get(AbstractDungeon.player);
+        questCompletionPerFloor.get(questCompletionPerFloor.size() - 1).add(quest.id);
+    }
+
     public static void failQuest(AbstractQuest quest) {
         quest.forceFail();
         quest.onFail();

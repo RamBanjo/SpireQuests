@@ -68,6 +68,9 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
 
     private ArrayList<PowerTip> previewTooltips;
 
+    //If true, the quest will automatically complete as soon as the conditions are fulfilled.
+    public boolean isAutoComplete;
+
     /*
     trackers that require another tracker to be completed first
 
@@ -89,6 +92,7 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
         triggers = new ArrayList<>();
 
         complete = false;
+        isAutoComplete = false;
 
         questStrings = QuestStringsUtils.getQuestString(id);
         if (questStrings == null) {
@@ -212,7 +216,15 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
 
     public boolean complete() {
         if (failed) return false;
-        if (complete) return true;
+        if (complete) {
+            if (isAutoComplete){
+                QuestManager.autoCompleteQuest(this);
+            }
+
+            return true;
+        }
+
+
 
         for (Tracker tracker : trackers) {
             if (!tracker.isComplete()) return false;
