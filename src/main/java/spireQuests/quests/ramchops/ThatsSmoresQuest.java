@@ -53,13 +53,10 @@ public class ThatsSmoresQuest extends AbstractQuest {
                     .findAny()
                     .orElse(null);
             if(q != null) {
-                Anniv8Mod.logger.info("Adding Marshmallow Option");
                 ___buttons.add(new MarshmallowOption());
-
             }
 
         }
-
 
         private static class Locator extends SpireInsertLocator {
             @Override
