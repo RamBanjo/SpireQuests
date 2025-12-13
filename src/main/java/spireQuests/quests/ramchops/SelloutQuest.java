@@ -13,7 +13,6 @@ import spireQuests.quests.AbstractQuest;
 import spireQuests.quests.QuestReward;
 import spireQuests.quests.ramchops.cards.SelloutAdvertisementCard;
 import spireQuests.quests.ramchops.trackers.AdsPlayedQuestTracker;
-import spireQuests.quests.ramchops.trackers.SelloutCombatTracker;
 
 import java.util.List;
 
@@ -28,8 +27,7 @@ public class SelloutQuest extends AbstractQuest implements CustomSavable<Integer
         useDefaultReward = false;
 
         new AdsPlayedQuestTracker().add(this);
-        new SelloutCombatTracker().add(this);
-        new TriggerTracker<>(QuestTriggers.REMOVE_CARD, 3).triggerCondition((card)->
+        new TriggerTracker<>(QuestTriggers.REMOVE_CARD, 1).triggerCondition((card)->
            card instanceof SelloutAdvertisementCard
         ).add(this);
     }
@@ -40,7 +38,7 @@ public class SelloutQuest extends AbstractQuest implements CustomSavable<Integer
         super.onStart();
         initialPickup = false;
 
-        float count = 3.0f;
+        float count = 1.0f;
         float displayCount = count;
 
         for (int i = 0; i < count; i++){
