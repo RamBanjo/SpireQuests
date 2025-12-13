@@ -1,7 +1,5 @@
 package spireQuests.patches;
 
-import basemod.BaseMod;
-import basemod.patches.com.megacrit.cardcrawl.relics.AbstractRelic.ObtainRelicGetHook;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
@@ -26,7 +24,6 @@ import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import com.megacrit.cardcrawl.ui.panels.PotionPopUp;
 import com.megacrit.cardcrawl.ui.panels.TopPanel;
 import javassist.CtBehavior;
-import spireQuests.Anniv8Mod;
 import spireQuests.quests.Trigger;
 
 public class QuestTriggers {

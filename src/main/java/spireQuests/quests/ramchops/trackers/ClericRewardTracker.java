@@ -1,13 +1,6 @@
 package spireQuests.quests.ramchops.trackers;
 
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
-import com.megacrit.cardcrawl.rewards.RewardItem;
-import com.megacrit.cardcrawl.screens.CombatRewardScreen;
-import spireQuests.patches.QuestTriggers;
 import spireQuests.quests.OptionalTriggerTracker;
-import spireQuests.quests.Trigger;
-
 
 public class ClericRewardTracker extends OptionalTriggerTracker<Integer> {
 
