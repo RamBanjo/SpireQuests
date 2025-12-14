@@ -18,7 +18,6 @@ import java.util.List;
 
 public class SelloutQuest extends AbstractQuest implements CustomSavable<Integer>{
 
-    boolean initialPickup = false;
     int adRevenue = 0;
 
     public SelloutQuest() {
@@ -34,21 +33,9 @@ public class SelloutQuest extends AbstractQuest implements CustomSavable<Integer
 
     @Override
     public void onStart() {
-        initialPickup = true;
         super.onStart();
-        initialPickup = false;
-
-        float count = 1.0f;
-        float displayCount = count;
-
-        for (int i = 0; i < count; i++){
-            AbstractCard selloutCard = new SelloutAdvertisementCard();
-            selloutCard.initializeDescription();
-
-            AbstractDungeon.topLevelEffectsQueue.add(new ShowCardAndObtainEffect(selloutCard, (float) Settings.WIDTH / count + displayCount, (float)Settings.HEIGHT / 2.0F, false));
-            displayCount += (float)(Settings.WIDTH / (6.0F)) * (3/count);
-            displayCount++;
-        }
+        AbstractCard selloutCard = new SelloutAdvertisementCard();
+        AbstractDungeon.topLevelEffectsQueue.add(new ShowCardAndObtainEffect(selloutCard, (float) Settings.WIDTH / 2.0F, (float)Settings.HEIGHT / 2.0F, false));
     }
 
     @Override
