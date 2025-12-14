@@ -1,7 +1,7 @@
 {
   "${ModID}:SelloutAdCard": {
     "NAME": "Advertisement",
-    "DESCRIPTION": "stslib:Exhaustive 3. Shuffle this card into your draw pile.",
+    "DESCRIPTION": "stslib:Exhaustive !stslib:ex!. Shuffle this card into your draw pile.",
     "EXTENDED_DESCRIPTION": [
       "(Your Ad Here, contact The Merchant for details.)",
       "(Ad Space For Rent, contact the Merchant for details.)",
