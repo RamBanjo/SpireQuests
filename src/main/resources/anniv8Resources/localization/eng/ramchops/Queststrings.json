@@ -55,5 +55,14 @@
       "Cleric's Gratitude",
       "Gain Some Gold"
     ]
+  },
+  "${ModID}:BloomerQuest": {
+    "TITLE": "Okay, Bloomer",
+    "DESCRIPTION": "Upon pickup, obtain #yMark #yof #ythe #yBloom [REMOVE_SPACE]. Climb #b10 floors with it.",
+    "AUTHOR": "RamChops Games",
+    "REWARD": "Remove #yMark #yof #ythe #yBloom [REMOVE_SPACE] and obtain a random Rare relic.",
+    "TRACKER_TEXT": [
+      "Climb Floors"
+    ]
   }
 }
