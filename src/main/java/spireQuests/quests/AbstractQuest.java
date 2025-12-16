@@ -910,13 +910,9 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
         @SpireInsertPatch(locator = Locator.class)
         public static void enteringRoomPatch(AbstractDungeon __instance, SaveFile file) {
             if (AbstractDungeon.currMapNode != null) {
-                AbstractQuest q = QuestManager.quests().stream()
+                QuestManager.quests().stream()
                         .filter(quest -> quest.isAutoComplete && quest.isCompleted())
-                        .findAny()
-                        .orElse(null);
-                if(q != null) {
-                    QuestManager.completeQuest(q);
-                }
+                        .forEach(QuestManager::completeQuest);
             }
         }
 
