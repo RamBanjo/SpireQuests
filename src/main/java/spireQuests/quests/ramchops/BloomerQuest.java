@@ -24,6 +24,7 @@ public class BloomerQuest extends AbstractQuest {
 
     @Override
     public void onStart() {
+        super.onStart();
         AbstractDungeon.getCurrRoom().spawnRelicAndObtain(Settings.WIDTH/2f, Settings.HEIGHT/2f, new MarkOfTheBloom());
     }
 
