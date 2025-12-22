@@ -9,6 +9,8 @@ import spireQuests.patches.QuestTriggers;
 import spireQuests.quests.AbstractQuest;
 import spireQuests.quests.QuestReward;
 
+import java.util.ArrayList;
+
 import static spireQuests.util.Wiz.adp;
 
 public class BloomerQuest extends AbstractQuest {
@@ -18,20 +20,12 @@ public class BloomerQuest extends AbstractQuest {
         new TriggerTracker<>(QuestTriggers.LEAVE_ROOM, 10).add(this).setFailureTrigger(QuestTriggers.LEAVE_ROOM, (node)->
                 !adp().hasRelic(MarkOfTheBloom.ID));
 
-        this.useDefaultReward = false;
         this.isAutoComplete = true;
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        AbstractDungeon.getCurrRoom().spawnRelicAndObtain(Settings.WIDTH/2f, Settings.HEIGHT/2f, new MarkOfTheBloom());
-    }
+        questboundRelics = new ArrayList<>();
+        questboundRelics.add(new MarkOfTheBloom());
 
-    @Override
-    public void onComplete() {
-       adp().loseRelic(MarkOfTheBloom.ID);
-       addReward(new QuestReward.RandomRelicReward(AbstractRelic.RelicTier.RARE));
+        addReward(new QuestReward.RandomRelicReward(AbstractRelic.RelicTier.RARE));
     }
 
     @Override
