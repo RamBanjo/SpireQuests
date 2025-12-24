@@ -1,5 +1,6 @@
 package spireQuests.quests;
 
+import basemod.helpers.CardPowerTip;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -12,6 +13,8 @@ import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import javassist.CtBehavior;
 import spireQuests.Anniv8Mod;
+import spireQuests.patches.ShowMarkedNodesOnMapPatch;
+import spireQuests.questStats.StatRewardBox;
 import spireQuests.util.QuestStrings;
 import spireQuests.util.QuestStringsUtils;
 import spireQuests.util.WeightedList;
@@ -79,6 +82,8 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
     //If true, the quest will automatically complete when the player leaves the room with the conditions fulfilled.
     public boolean isAutoComplete;
 
+    //If true, the quest will automatically fail when the player leaves the room with the fail conditions fulfilled.
+    public boolean isAutoFail;
     /*
     trackers that require another tracker to be completed first
 
@@ -101,6 +106,7 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
 
         complete = false;
         isAutoComplete = false;
+        isAutoFail = false;
 
         questStrings = QuestStringsUtils.getQuestString(id);
         if (questStrings == null) {
@@ -179,7 +185,26 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
         for (QuestReward reward : questRewards) {
             reward.addTooltip(tipList);
         }
-        if(questboundRelics != null || questboundCards != null) {
+
+        boolean hasQuestboundItems = false;
+
+        if(questboundRelics != null){
+            hasQuestboundItems = true;
+
+            for (AbstractRelic r : questboundRelics){
+                tipList.add(new PowerTip(r.name, r.description));
+            }
+        }
+
+        if(questboundCards != null){
+            hasQuestboundItems = true;
+
+            for (AbstractCard c : questboundCards){
+                tipList.add(new CardPowerTip(c));
+            }
+        }
+
+        if(hasQuestboundItems){
             tipList.add(new PowerTip(Anniv8Mod.keywords.get("Questbound").PROPER_NAME, Anniv8Mod.keywords.get("Questbound").DESCRIPTION));
         }
     }
@@ -365,13 +390,22 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
         for (QuestReward r : questRewards) {
             r.init();
         }
+        if(this instanceof MarkNodeQuest) {
+            MarkNodeQuest q = (MarkNodeQuest) this;
+            q.markNodes(AbstractDungeon.map, q.rng());
+        }
     }
 
     public void onComplete() {
-
+        if(this instanceof MarkNodeQuest) {
+            ShowMarkedNodesOnMapPatch.ImageField.ClearMarks(id);
+        }
     }
 
     public void onFail() {
+        if(this instanceof MarkNodeQuest) {
+            ShowMarkedNodesOnMapPatch.ImageField.ClearMarks(id);
+        }
     }
 
     public boolean canSpawn() {
@@ -388,6 +422,23 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
         for (Tracker t : trackers) {
             t.refreshState();
         }
+    }
+
+    // Most quests can have these dynamically generated using the code below, however if your
+    // quest has a special reward structure or dynamic rewards, you may need to ovveride
+    // this function and manually define how Quest Log displays rewards.
+    public ArrayList<StatRewardBox> getStatRewardBoxes() {
+        ArrayList<StatRewardBox> ret = new ArrayList<>();
+
+        if (this.questRewards.isEmpty() || this.useDefaultReward) {
+            ret.add(new StatRewardBox(this));
+        } else {
+            for (QuestReward r : this.questRewards) {
+                ret.add(new StatRewardBox(r));
+            }
+        }
+
+        return ret;
     }
 
     public void loadSave(String[] questData, QuestReward.QuestRewardSave[] questRewardSaves) {
@@ -965,9 +1016,21 @@ public abstract class AbstractQuest implements Comparable<AbstractQuest> {
         @SpireInsertPatch(locator = Locator.class)
         public static void enteringRoomPatch(AbstractDungeon __instance, SaveFile file) {
             if (AbstractDungeon.currMapNode != null) {
-                QuestManager.quests().stream()
+                AbstractQuest q1 = QuestManager.quests().stream()
                         .filter(quest -> quest.isAutoComplete && quest.isCompleted())
-                        .forEach(QuestManager::completeQuest);
+                        .findAny()
+                        .orElse(null);
+                if(q1 != null) {
+                    QuestManager.completeQuest(q1);
+                }
+
+                AbstractQuest q2 = QuestManager.quests().stream()
+                        .filter(quest -> quest.isAutoFail && quest.isFailed())
+                        .findAny()
+                        .orElse(null);
+                if(q2 != null) {
+                    QuestManager.failQuest(q2);
+                }
             }
         }
 
