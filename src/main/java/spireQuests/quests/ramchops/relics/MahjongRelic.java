@@ -1,5 +1,6 @@
 package spireQuests.quests.ramchops.relics;
 
+import basemod.helpers.CardPowerTip;
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -10,6 +11,7 @@ import spireQuests.abstracts.AbstractSQRelic;
 import spireQuests.quests.ramchops.cards.BlessingEarth;
 import spireQuests.quests.ramchops.cards.BlessingHeaven;
 import spireQuests.quests.ramchops.cards.BlessingMan;
+import spireQuests.util.Wiz;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -28,18 +30,15 @@ public class MahjongRelic extends AbstractSQRelic {
     public void atBattleStartPreDraw() {
         this.flash();
 
-        ArrayList<AbstractCard> cardlist = new ArrayList<>();
+        ArrayList<AbstractCard> cardList = new ArrayList<>();
 
-        cardlist.add(new BlessingEarth());
-        cardlist.add(new BlessingHeaven());
-        cardlist.add(new BlessingMan());
+        cardList.add(new BlessingHeaven());
+        cardList.add(new BlessingEarth());
+        cardList.add(new BlessingMan());
 
-        Collections.shuffle(cardlist);
-
-        AbstractCard addThis = cardlist.get(0);
+        AbstractCard addThis = Wiz.getRandomItem(cardList, AbstractDungeon.cardRandomRng);
 
         this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
         this.addToBot(new MakeTempCardInHandAction(addThis, 1, false));
     }
-
 }
