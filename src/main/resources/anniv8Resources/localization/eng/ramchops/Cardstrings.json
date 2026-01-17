@@ -56,17 +56,17 @@
 
   "${ModID}:BlessingHeaven": {
     "NAME": "Blessing of Heaven",
-    "DESCRIPTION": "Prevent the next time you would lose HP. Retain. Exhaust.",
-    "UPGRADE_DESCRIPTION": "Prevent the next !M! times you would lose HP. Retain. Exhaust."
+    "DESCRIPTION": "Retain. NL Prevent the next time you would lose HP. Exhaust.",
+    "UPGRADE_DESCRIPTION": "Retain. NL Prevent the next !M! times you would lose HP. Exhaust."
   },
 
   "${ModID}:BlessingEarth": {
     "NAME": "Blessing of Earth",
-    "DESCRIPTION": "Raise your Max HP by !M!. Retain. Exhaust."
+    "DESCRIPTION": "{@@}Retain. NL Gain [E]. NL Draw !M! card{!M!|>1=s}. NL Exhaust."
   },
 
   "${ModID}:BlessingMan": {
     "NAME": "Blessing of Man",
-    "DESCRIPTION": "Apply 1 Vulnerable to ALL enemies !M! times. Retain. Exhaust."
+    "DESCRIPTION": "Retain. NL Apply 1 Vulnerable to ALL enemies !M! times. Exhaust."
   }
 }
