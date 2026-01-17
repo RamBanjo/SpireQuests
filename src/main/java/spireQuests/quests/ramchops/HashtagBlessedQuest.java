@@ -1,14 +1,17 @@
 package spireQuests.quests.ramchops;
 
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.powers.*;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
+import javassist.CannotCompileException;
+import javassist.CtBehavior;
 import spireQuests.Anniv8Mod;
 import spireQuests.patches.QuestTriggers;
 import spireQuests.quests.AbstractQuest;
@@ -49,12 +52,12 @@ public class HashtagBlessedQuest extends AbstractQuest {
 
 
     @SpirePatch2(
-            clz = MonsterRoom.class,
-            method = "onPlayerEntry"
+            clz = AbstractRoom.class,
+            method = "update"
     )
     public static class BlessingPatch{
-        @SpirePostfixPatch
-        public static void SelectRandomEnemyForBlessing(MonsterRoom __instance){
+        @SpireInsertPatch(locator = Locator.class)
+        public static void SelectRandomEnemyForBlessing(AbstractRoom __instance){
             // if this quest exists
             HashtagBlessedQuest q = (HashtagBlessedQuest) QuestManager.quests().stream()
                     .filter(quest -> ID.equals(quest.id) && !quest.isCompleted() && !quest.isFailed())
@@ -72,6 +75,13 @@ public class HashtagBlessedQuest extends AbstractQuest {
 
             }
         }
+
+        private static class Locator extends SpireInsertLocator {
+            public int[] Locate(CtBehavior ctMethodToPatch) throws CannotCompileException, PatchingException {
+                Matcher finalMatcher = new Matcher.MethodCallMatcher(AbstractPlayer.class, "applyStartOfCombatPreDrawLogic");
+                return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
+            }
+        }
     }
 
     enum MonsterBlessing{
@@ -86,7 +96,9 @@ public class HashtagBlessedQuest extends AbstractQuest {
         BUFFER,
         HIDE,
         REGEN,
-        INTANGIBLE
+        INTANGIBLE,
+        ENRAGE,
+        CURL_UP
     }
 
     public static void giveBlessing(AbstractMonster m){
@@ -130,6 +142,12 @@ public class HashtagBlessedQuest extends AbstractQuest {
                 break;
             case INTANGIBLE:
                 Wiz.applyToEnemy(m, new IntangiblePower(m, 1));
+                break;
+            case CURL_UP:
+                Wiz.applyToEnemy(m, new CurlUpPower(m, 5));
+                break;
+            case ENRAGE:
+                Wiz.applyToEnemy(m, new AngerPower(m, 1));
                 break;
         }
     }
