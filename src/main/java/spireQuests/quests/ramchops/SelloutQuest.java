@@ -58,7 +58,7 @@ public class SelloutQuest extends AbstractQuest implements CustomSavable<Integer
     @Override
     public boolean complete() {
 
-        if(!this.isCompleted()) {
+        if(questConditionsAreFulfilled()) {
             Object o = trackers.get(0);
 
             if (o instanceof AdsPlayedQuestTracker) {

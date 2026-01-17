@@ -53,7 +53,7 @@ public class CharityQuest extends AbstractQuest implements CustomSavable<Integer
     @Override
     public boolean complete() {
 
-        if(!this.isCompleted()){
+        if(questConditionsAreFulfilled()){
             Object o = trackers.get(1);
 
             if(o instanceof ClericRewardTracker){
