@@ -2,6 +2,8 @@ package spireQuests.quests.ramchops.cards;
 
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.actions.animations.VFXAction;
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
+import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -28,7 +30,8 @@ public class BlessingEarth extends AbstractSQCard {
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
         atb(new VFXAction(new MiracleEffect(Color.LIME, Color.GREEN, "HEAL_1")));
-        AbstractDungeon.player.increaseMaxHp(magicNumber, false);
+        atb(new GainEnergyAction(1));
+        atb(new DrawCardAction(magicNumber));
     }
 
     @Override
