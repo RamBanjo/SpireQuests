@@ -85,19 +85,18 @@ public class HashtagBlessedQuest extends AbstractQuest {
     }
 
     enum MonsterBlessing{
-        RITUAL,
+        CURIO,
         STRENGTH,
         PAINSTAB,
         SPIKES,
         HEARTBEAT,
         METALLICIZE,
-        TIMEWARP,
+        ARTIFACT,
         PLATED,
         BUFFER,
         HIDE,
         REGEN,
-        INTANGIBLE,
-        ENRAGE,
+        MALLEABLE,
         CURL_UP
     }
 
@@ -107,8 +106,8 @@ public class HashtagBlessedQuest extends AbstractQuest {
         MonsterBlessing chosenBlessing = blessings.get(AbstractQuest.rng.random(count -1));
 
         switch (chosenBlessing){
-            case RITUAL:
-                Wiz.applyToEnemy(m, new RitualPower(m, 1, false));
+            case CURIO:
+                Wiz.applyToEnemy(m, new CuriosityPower(m, 1));
                 break;
             case STRENGTH:
                 Wiz.applyToEnemy(m, new StrengthPower(m, 3));
@@ -125,8 +124,8 @@ public class HashtagBlessedQuest extends AbstractQuest {
             case METALLICIZE:
                 Wiz.applyToEnemy(m, new MetallicizePower(m, 3));
                 break;
-            case TIMEWARP:
-                Wiz.applyToEnemy(m, new TimeWarpPower(m));
+            case ARTIFACT:
+                Wiz.applyToEnemy(m, new ArtifactPower(m, 3));
                 break;
             case PLATED:
                 Wiz.applyToEnemy(m, new PlatedArmorPower(m, 5));
@@ -140,14 +139,11 @@ public class HashtagBlessedQuest extends AbstractQuest {
             case REGEN:
                 Wiz.applyToEnemy(m, new RegenerateMonsterPower(m, 2));
                 break;
-            case INTANGIBLE:
-                Wiz.applyToEnemy(m, new IntangiblePower(m, 1));
+            case MALLEABLE:
+                Wiz.applyToEnemy(m, new MalleablePower(m));
                 break;
             case CURL_UP:
                 Wiz.applyToEnemy(m, new CurlUpPower(m, 5));
-                break;
-            case ENRAGE:
-                Wiz.applyToEnemy(m, new AngerPower(m, 1));
                 break;
         }
     }
