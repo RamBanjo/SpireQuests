@@ -17,7 +17,7 @@ import static spireQuests.util.Wiz.applyToEnemy;
 import static spireQuests.util.Wiz.atb;
 
 public class BlessingMan extends AbstractSQCard {
-    public final static String ID = makeID("BlessingEarth");
+    public final static String ID = makeID("BlessingMan");
     private Random rng;
 
     public BlessingMan() {
@@ -30,7 +30,7 @@ public class BlessingMan extends AbstractSQCard {
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
         AbstractDungeon.actionManager.addToBottom(new SFXAction("THUNDERCLAP"));
-        atb(new VFXAction(new ShockWaveEffect(p.hb_x, p.hb_y, Color.RED, ShockWaveEffect.ShockWaveType.CHAOTIC)));
+        atb(new VFXAction(new ShockWaveEffect(p.hb.cX, p.hb.cY, Color.RED, ShockWaveEffect.ShockWaveType.CHAOTIC)));
 
         for (int i = 0; i < magicNumber; i++){
             for (AbstractMonster mon2 : AbstractDungeon.getMonsters().monsters){
