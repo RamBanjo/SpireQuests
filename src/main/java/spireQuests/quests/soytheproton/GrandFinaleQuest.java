@@ -27,6 +27,11 @@ public class GrandFinaleQuest extends AbstractQuest {
     }
 
     @Override
+    public void makeTooltips(List<PowerTip> tipList) {
+        super.makeTooltips(tipList);
+        tipList.add(new PowerTip(questStrings.EXTRA_TEXT[0],questStrings.EXTRA_TEXT[1]));
+    }
+
     public boolean canSpawn() {
         return AbstractDungeon.player instanceof TheSilent;
     }

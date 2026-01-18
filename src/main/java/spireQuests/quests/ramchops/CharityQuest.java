@@ -32,6 +32,8 @@ public class CharityQuest extends AbstractQuest implements CustomSavable<Integer
                 return super.isComplete() || adp().hasRelic(Ectoplasm.ID);
             }
         }.add(this);
+
+        needHoverTip = true;
     }
 
     @Override
@@ -55,7 +57,7 @@ public class CharityQuest extends AbstractQuest implements CustomSavable<Integer
     @Override
     public boolean complete() {
 
-        if(questConditionsAreFulfilled() && maxHPGain != 0){
+        if(questConditionsAreFulfilled() && maxHPGain == 0){
             Object o = trackers.get(1);
 
             if(o instanceof ClericRewardTracker){
