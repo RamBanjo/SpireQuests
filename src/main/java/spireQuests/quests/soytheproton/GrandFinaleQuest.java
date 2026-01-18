@@ -27,12 +27,6 @@ public class GrandFinaleQuest extends AbstractQuest {
     }
 
     @Override
-    public void makeTooltips(List<PowerTip> tipList) {
-        super.makeTooltips(tipList);
-        tipList.add(new CardPowerTip(new GrandFinale()));
-    }
-
-    @Override
     public boolean canSpawn() {
         return AbstractDungeon.player instanceof TheSilent;
     }
