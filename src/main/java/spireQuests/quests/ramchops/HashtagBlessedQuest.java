@@ -30,7 +30,7 @@ public class HashtagBlessedQuest extends AbstractQuest {
     private static final String ID = makeID(HashtagBlessedQuest.class.getSimpleName());
 
     public HashtagBlessedQuest(){
-        super(QuestType.LONG, QuestDifficulty.NORMAL); //Move to Hard?
+        super(QuestType.LONG, QuestDifficulty.NORMAL);
 
         new TriggerTracker<>(QuestTriggers.VICTORY, 1).triggerCondition(
                 (x) -> AbstractDungeon.getCurrRoom() instanceof MonsterRoomBoss && AbstractDungeon.actNum == 2
@@ -67,9 +67,9 @@ public class HashtagBlessedQuest extends AbstractQuest {
                     Anniv8Mod.logger.warn("Can't bless anyone because everyone is a minion.");
                 }else{
 
-                    boolean isBoss = AbstractDungeon.getMonsters().monsters.stream().filter(
+                    boolean isBoss = AbstractDungeon.getMonsters().monsters.stream().anyMatch(
                             m -> m.type == AbstractMonster.EnemyType.BOSS
-                    ).findAny().orElse(null) != null;
+                    );
 
                     giveBlessing(blessTarget, isBoss);
 
