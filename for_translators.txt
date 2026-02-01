@@ -51,6 +51,11 @@ Alternately, you can CTRL + F and find the ID of the item you are translating to
 BloomerQuest:
 The quest's name is a play on the "Okay, Boomer" phrase and the "Mark of the Bloom".
 
+CharityQuest:
+"Charity Case" refers to someone pitiful you feel sorry for, but it's also a play on the word "Charity" itself.
+The quest's text refers to The Cleric.
+Make sure to check that the name is consistent with the base game.
+
 EvilSentryQuest:
 (FriendSentry)
 The reward relic for this quest has flavor text that refers to The Architect, whose name should appear flavor text of base game relics relics such as the Coffee Dripper or the Calpiers.
@@ -66,8 +71,10 @@ http://mahjong.wikidot.com/blessing-of-man
 
 SelloutQuest:
 (SelloutAdCard)
-Many strings in this quest refers to characters or locations that already have established, translated names.
+Many strings in the Advertisement Card refers to characters or locations that already have established, translated names.
 Be sure to check that the names stay consistent.
+This card also refers to The Packmaster, whose translated names can be seen in https://github.com/erasels/PackmasterCharacter/tree/main/src/main/resources/anniv5Resources/localization.
+Feel free to make up a translation if The Packmaster hasn't been translated in your language yet.
 
 ThatsSmoresQuest:
 (SmoresRelic)
