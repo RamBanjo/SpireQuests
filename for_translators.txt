@@ -1,0 +1,84 @@
+Translation notes for translators!
+
+Thank you for your interest in translating SpireQuests! Here are some useful notes that we think will be useful for your translation.
+Content here are divided by quest maker, then by quests.
+Search for the quest maker's folder name in this document, then find the quest ID in their section.
+Alternately, you can CTRL + F and find the ID of the item you are translating to see if someone has made a note on it.
+
+[coda]
+--- NO NOTES YET ---
+
+[darkglade]
+--- NO NOTES YET ---
+
+[dayvig]
+--- NO NOTES YET ---
+
+[enbeon]
+--- NO NOTES YET ---
+
+[gk]
+--- NO NOTES YET ---
+
+[indi_keurodz]
+--- NO NOTES YET ---
+
+[iry]
+--- NO NOTES YET ---
+
+[jackrenoson]
+--- NO NOTES YET ---
+
+[luaviper]
+--- NO NOTES YET ---
+
+[mangochicken]
+--- NO NOTES YET ---
+
+[maybelaterx]
+--- NO NOTES YET ---
+
+[modargo]
+--- NO NOTES YET ---
+
+[pandemonium]
+--- NO NOTES YET ---
+
+[quorry]
+--- NO NOTES YET ---
+
+[ramchops]
+BloomerQuest:
+The quest's name is a play on the "Okay, Boomer" phrase and the "Mark of the Bloom".
+
+EvilSentryQuest:
+(FriendSentry)
+The reward relic for this quest has flavor text that refers to The Architect, whose name should appear flavor text of base game relics relics such as the Coffee Dripper or the Calpiers.
+Make sure to check that the names stay consistent.
+
+HashtagBlessedQuest:
+(BlessingEarth, BlessingHeaven, BlessingMan)
+The cards from this quest's relic reward are references to Mahjong hands.
+Please see the following for more details:
+http://mahjong.wikidot.com/blessing-of-heaven
+http://mahjong.wikidot.com/blessing-of-earth
+http://mahjong.wikidot.com/blessing-of-man
+
+SelloutQuest:
+(SelloutAdCard)
+Many strings in this quest refers to characters or locations that already have established, translated names.
+Be sure to check that the names stay consistent.
+
+ThatsSmoresQuest:
+(SmoresRelic)
+The quest's name is a reference to the song That's Amore.
+The quest reward's flavor text is a reference to the movie The Menu.
+
+[snumodder]
+--- [NO NOTES YET] ---
+
+[soytheproton]
+--- [NO NOTES YET] ---
+
+[theabest]
+--- [NO NOTES YET] ---
