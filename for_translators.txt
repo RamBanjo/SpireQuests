@@ -75,6 +75,7 @@ Many strings in the Advertisement Card refers to characters or locations that al
 Be sure to check that the names stay consistent.
 This card also refers to The Packmaster, whose translated names can be seen in https://github.com/erasels/PackmasterCharacter/tree/main/src/main/resources/anniv5Resources/localization.
 Feel free to make up a translation if The Packmaster hasn't been translated in your language yet.
+Jelly G. and UPDATE BODY TEXT are in-jokes from the SlayTheSpire modding community.
 
 ThatsSmoresQuest:
 (SmoresRelic)
