@@ -30,7 +30,18 @@ Alternately, you can CTRL + F and find the ID of the item you are translating to
 --- NO NOTES YET ---
 
 [luaviper]
---- NO NOTES YET ---
+VampireInTrainingQuest:
+Quest and reward make reference to the vanilla "Vampires(?)" event. If you can make this more interesting in another language, please do.
+  in English relic description is necessary to avoid the "any card with 'Strike' in its name" tag. The relic transforms only starter Strikes.
+
+PrioritiesQuest:
+Sarcastic remark suggesting that something is being done in exactly the _wrong_ order due to malice or incompetence. Also takes the form of "but... priorities." Rename as you see fit.
+Regarding "One at a time" in quest description: at this time, defeating two or more enemies in a single action will fail the quest. This might be changed in a future revision.
+
+RapidImprovisationQuest:
+Player is compelled to play 6-10 random cards in one combat, often at a disadvantage. Quest could have been named "MacGyver Quest" for similar effect.
+You could also change the theme entirely if there's a clever insect metaphor available.
+The name and description of "Ecdysis" should be on theme with "Metamorphosis" and "Chrysalis". Note that "Ecdysis" might sound foreign even to a native English speaker (it's not even in IntelliJ's dictionary).
 
 [mangochicken]
 --- NO NOTES YET ---

@@ -22,7 +22,7 @@
   },
   "${ModID}:PrioritiesQuest": {
     "TITLE": "Priorities",
-    "DESCRIPTION": "The next elite this act will be Taskmaster. Defeat the enemies, one at a time, in order, from left to right.",
+    "DESCRIPTION": "The next elite this act will be Taskmaster. Defeat the enemies, one at a time, in order from left to right.",
     "AUTHOR": "Lua Viper",
     "REWARD": "All card rewards from this combat will be upgraded.",
     "TRACKER_TEXT": [
