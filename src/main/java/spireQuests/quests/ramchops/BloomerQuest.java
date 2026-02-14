@@ -15,8 +15,8 @@ public class BloomerQuest extends AbstractQuest {
     public BloomerQuest() {
         super(QuestType.SHORT, QuestDifficulty.HARD);
 
-        new TriggerTracker<>(QuestTriggers.LEAVE_ROOM, 10).add(this).setFailureTrigger(QuestTriggers.LEAVE_ROOM, (node)->
-                !adp().hasRelic(MarkOfTheBloom.ID));
+        new TriggerTracker<>(QuestTriggers.LEAVE_ROOM, 10).add(this)
+                .setFailureTrigger(QuestTriggers.LEAVE_ROOM, (node)-> !adp().hasRelic(MarkOfTheBloom.ID));
 
         this.isAutoComplete = true;
 
