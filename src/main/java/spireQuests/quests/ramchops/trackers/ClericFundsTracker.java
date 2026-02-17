@@ -30,7 +30,7 @@ public class ClericFundsTracker extends OptionalTriggerTracker<Integer> {
         public static void SkipGold(CombatRewardScreen __instance){
 
             for(RewardItem r : __instance.rewards){
-                if(r.type == RewardItem.RewardType.GOLD){
+                if(r.type == RewardItem.RewardType.GOLD || r.type == RewardItem.RewardType.STOLEN_GOLD){
                     SKIP_GOLD.trigger(r.goldAmt);
 
                     if(r.bonusGold != 0){
