@@ -54,6 +54,11 @@
       "Gold Donated",
       "Cleric's Gratitude",
       "Gain Some Gold"
+    ],
+    "EXTRA_TEXT": [
+      " #r(Skip #rto #rDonate)",
+      "Cleric's Message",
+      "BEWARE TRAVELER! Collecting this ends the Charity Case Quest! Consider donating it instead!"
     ]
   },
   "${ModID}:BloomerQuest": {
