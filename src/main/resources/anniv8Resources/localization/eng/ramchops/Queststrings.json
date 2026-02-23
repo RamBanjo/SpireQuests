@@ -56,7 +56,7 @@
       "Gain Some Gold"
     ],
     "EXTRA_TEXT": [
-      " #r(Skip #rto #rDonate)",
+      " #r(!)",
       "Cleric's Message",
       "BEWARE TRAVELER! Collecting this ends the Charity Case Quest! Consider donating it instead!"
     ]
