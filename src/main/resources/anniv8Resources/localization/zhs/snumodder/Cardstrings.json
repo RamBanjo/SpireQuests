@@ -1,7 +1,7 @@
 {
   "${ModID}:KingLlane": {
     "NAME": "莱恩国王",
-    "DESCRIPTION": " #y虚无 。 NL #y固有 。 NL 抽 !M! 张牌。 NL 将这张牌洗入抽牌堆。"
+    "DESCRIPTION": " 虚无 。 NL 固有 。 NL 抽 !M! 张牌。 NL 将这张牌洗入抽牌堆。"
   },
   "${ModID}:RecursiveModule": {
     "NAME": "递归模块",
@@ -29,15 +29,15 @@
   },
   "${ModID}:PylonModule": {
     "NAME": "能源塔模块",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 为本场战斗中你手牌中的一张牌进行 #y升级 。",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 本场战斗中 升级 一张手牌。",
     "EXTENDED_DESCRIPTION": [
       "",
-      "为本场战斗中你手牌中的一张牌进行升级。"
+      "本场战斗中 升级 一张手牌。"
     ]
   },
   "${ModID}:VirusModule": {
     "NAME": "病毒模块",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 给予1层 #y虚弱 。",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 给予1层 虚弱 。",
     "EXTENDED_DESCRIPTION": [
       "",
       "给予1层虚弱。"
@@ -53,10 +53,10 @@
   },
   "${ModID}:TwinModule": {
     "NAME": "双子模块",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL stslib:Persist !stslib:persist!",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL stslib:长驻 !stslib:persist! 。",
     "EXTENDED_DESCRIPTION": [
       "",
-      "stslib:Persist !stslib:persist!"
+      "stslib:长驻 !stslib:persist! 。"
     ]
   },
   "${ModID}:PerfectModule": {

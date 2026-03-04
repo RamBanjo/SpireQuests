@@ -1,27 +1,27 @@
 {
   "${ModID}:TripleCast": {
     "NAME": "三重释放",
-    "DESCRIPTION": " #y激发 你的下一个充能球三次。"
+    "DESCRIPTION": " 激发 你的下一个充能球三次。"
   },
   "${ModID}:Smash": {
     "NAME": "猛击",
-    "DESCRIPTION": "造成 !D! 点伤害，给予所有敌人 !M! 层 #y易伤 。 NL #y消耗 。"
+    "DESCRIPTION": "造成 !D! 点伤害，给予所有敌人 !M! 层 易伤 。 NL 消耗 。"
   },
   "${ModID}:Thriver": {
     "NAME": "茁壮",
-    "DESCRIPTION": "获得 !B! 点格挡。 NL 抽 !M! 张牌。 NL #y丢弃 !M! 张牌。"
+    "DESCRIPTION": "获得 !B! 点格挡。 NL 抽 !M! 张牌。 NL 丢弃 !M! 张牌。"
   },
   "${ModID}:Cardmancy": {
     "NAME": "牌术",
-    "DESCRIPTION": "获得 !B! 点格挡。 NL 本回合你打出的下一张牌放置到你的抽牌堆顶部并 #y升级 。"
+    "DESCRIPTION": "获得 !B! 点格挡。 NL 本回合你打出的下一张牌放置到你的抽牌堆顶部并 升级 。"
   },
   "${ModID}:Balance": {
     "NAME": "平衡",
-    "DESCRIPTION": "获得 !B! 点格挡。 NL 进入 #y平静 。"
+    "DESCRIPTION": "获得 !B! 点格挡。 NL 进入 平静 。"
   },
   "${ModID}:Trapshot": {
     "NAME": "陷阱射击",
-    "DESCRIPTION": "造成 !D! 点伤害。 #y精准 ：目标失去本次造成的未被格挡的伤害相等的 #y力量 一回合。"
+    "DESCRIPTION": "造成 !D! 点伤害。 精准 ：目标失去本次造成的未被格挡的伤害相等的 力量 一回合。"
   },
   "${ModID}:Unrelenting": {
     "NAME": "不屈",
@@ -29,10 +29,10 @@
   },
   "${ModID}:Taunt": {
     "NAME": "嘲讽",
-    "DESCRIPTION": "获得 !B! 点格挡。 NL 给予所有敌人 !M! 层 #y易伤 。"
+    "DESCRIPTION": "获得 !B! 点格挡。 NL 给予所有敌人 !M! 层 易伤 。"
   },
   "${ModID}:StoneArmor": {
     "NAME": "石甲",
-    "DESCRIPTION": "获得 !M! 层 #y多层护甲 。 NL 失去1点 #y敏捷 。"
+    "DESCRIPTION": "获得 !M! 层 多层护甲 。 NL 失去1点 敏捷 。"
   }
 }
