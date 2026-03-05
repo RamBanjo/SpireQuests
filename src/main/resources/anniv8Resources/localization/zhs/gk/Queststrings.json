@@ -17,7 +17,7 @@
   },
   "${ModID}:BasicProficiencyQuest": {
     "TITLE": "基础精通",
-    "DESCRIPTION": "在一场战斗中打出 %s #b 次。",
+    "DESCRIPTION": "在一场战斗中打出 %s #b3 次。",
     "AUTHOR": "Gk",
     "TRACKER_TEXT": [
       "已打出次数"
