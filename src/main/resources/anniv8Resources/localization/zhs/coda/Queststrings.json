@@ -32,7 +32,7 @@
   },
   "${ModID}:BuildAComboQuest": {
     "TITLE": "组合构筑",
-    "DESCRIPTION": "在一个回合内打出一张耗能为 #b1 、#b2 和 #b3 的卡牌。",
+    "DESCRIPTION": "在一个回合内打出一张耗能为 #b1 、 #b2 和 #b3 的卡牌。",
     "AUTHOR": "coda",
     "TRACKER_TEXT": [
       "已打出耗能1卡牌",
@@ -76,7 +76,7 @@
   },
   "${ModID}:TripleDipperQuest": {
     "TITLE": "三重奏",
-    "DESCRIPTION": "向你的牌组中添加 #b3 张 #y攻击 牌、#b3 张 #y技能 牌 和 #b3 张 #y能力 牌。",
+    "DESCRIPTION": "向你的牌组中添加 #b3 张 #y攻击 牌、 #b3 张 #y技能 牌 和 #b3 张 #y能力 牌。",
     "AUTHOR": "coda",
     "TRACKER_TEXT": [
       "已添加攻击牌",
