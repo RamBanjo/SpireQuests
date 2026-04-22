@@ -1,7 +1,7 @@
 {
   "${ModID}:SelloutAdCard": {
     "NAME": "广告",
-    "DESCRIPTION": "stslib:消耗性 !stslib:ex!。 将这张牌洗入你的抽牌堆。",
+    "DESCRIPTION": "stslib:消耗性 !stslib:ex! 。 将这张牌洗入你的抽牌堆。",
     "EXTENDED_DESCRIPTION": [
       "（此处可刊登您的广告，详情请联系商人。）",
       "（广告位招租，详情请联系商人。）",
@@ -55,17 +55,17 @@
 
   "${ModID}:BlessingHeaven": {
     "NAME": "天胡",
-    "DESCRIPTION": " #y保留 。 NL 阻止你下一次失去生命值损伤的效果。 #y消耗 。",
-    "UPGRADE_DESCRIPTION": " #y保留 。 NL 阻止你下 !M! 次失去生命值损伤的效果。 #y消耗 。"
+    "DESCRIPTION": " 保留 。 NL 阻止你下一次失去生命值损伤的效果。 消耗 。",
+    "UPGRADE_DESCRIPTION": " 保留 。 NL 阻止你下 !M! 次失去生命值损伤的效果。 消耗 。"
   },
 
   "${ModID}:BlessingEarth": {
     "NAME": "地胡",
-    "DESCRIPTION": " #y保留 。 NL 获得 [E] 。 NL 抽 !M! 张牌。 NL #y消耗 。"
+    "DESCRIPTION": " 保留 。 NL 获得 [E] 。 NL 抽 !M! 张牌。 NL 消耗 。"
   },
 
   "${ModID}:BlessingMan": {
     "NAME": "人胡",
-    "DESCRIPTION": " #y保留 。 NL 给予所有敌人 1 层 #y易伤 !M! 次。 #y消耗 。"
+    "DESCRIPTION": " 保留 。 NL 给予所有敌人 1 层 易伤 !M! 次。 消耗 。"
   }
 }

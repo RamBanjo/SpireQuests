@@ -65,7 +65,7 @@
     ]
   },
   "${ModID}:HashtagBlessedQuest": {
-    "TITLE": "#祝福",
+    "TITLE": "祝福",
     "DESCRIPTION": "在每场战斗开始时，一个随机的非爪牙敌人将被赋予一个随机的增益。直到你击败第二幕首领。",
     "AUTHOR": "RamChops Games",
     "TRACKER_TEXT": [
